@@ -1,3 +1,6 @@
+import User from "../models/user.model.js";
+import bcryptjs from 'bcryptjs'
+
 export const text = (req,res)=>{
     res.json({
         message:"api route is working"
@@ -11,6 +14,7 @@ export const updateUser = async (req, res, next) => {
       if (req.body.password) {
         req.body.password = bcryptjs.hashSync(req.body.password, 10);
       }
+      console.log(req.body);
   
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
