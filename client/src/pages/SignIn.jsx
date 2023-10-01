@@ -3,12 +3,20 @@ import { Link,useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useDispatch,useSelector } from 'react-redux';
+
+import { signInStart,signInError, signInSuccess } from '../redux/user/userSlice';
+
 export default function SignIn() {
 
-  const navigate = useNavigate();
 
-  const [formData , setFormData] = useState({})
-  const [loading , setLoading] = useState(false)
+  const [formData, setFormData] = useState({})
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const {loading, error} = useSelector((state) => {
+    return state.user
+  });
 
   const handleChange = (e)=>{
     setFormData({
@@ -19,7 +27,7 @@ export default function SignIn() {
   
   const handleSubmit = async (e)=>{
     e.preventDefault();
-    setLoading(true);
+    dispatch(signInStart())
     try{
       const res = await fetch('/api/auth/signin',{
         method:"POST",
@@ -30,24 +38,13 @@ export default function SignIn() {
       });
       const data = await res.json();
       if(data.success === false){
-        toast.error(data.message, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-        setLoading(false);
+        dispatch(signInError(data.message))
         return;
       }
-      setLoading(false);
-      console.log(data);
-      toast.success("Logged In", {
-        position: toast.POSITION.TOP_RIGHT,
-      })
+      dispatch(signInSuccess(data))  
       navigate('/sign-in')
     }catch(e){
-      toast.error(e.message, {
-        position: toast.POSITION.TOP_RIGHT
-      });
-        setLoading(false);
-      
+      dispatch(signInError(e.message))
     }
   }
 
@@ -65,7 +62,6 @@ export default function SignIn() {
           <span className='text-blue-700'>Sign Up</span>
         </Link>
       </div>
-      <ToastContainer/>
     </div>
   )
 }

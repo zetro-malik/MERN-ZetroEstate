@@ -67,7 +67,6 @@ export default function SignUp() {
           <span className='text-blue-700'>Sign In</span>
         </Link>
       </div>
-      <ToastContainer/>
     </div>
   )
 }
