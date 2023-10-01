@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify';
-
+import 'react-toastify/dist/ReactToastify.css';
 export default function SignUp() {
 
   const navigate = useNavigate();
@@ -38,15 +38,15 @@ export default function SignUp() {
       setLoading(false);
       console.log(data);
       toast.success("User Created", {
-        position: toast.POSITION.TOP_RIGHT
-      });
+        position: toast.POSITION.TOP_RIGHT,
+      })
       navigate('/sign-in')
     }catch(e){
       toast.error(e.message, {
         position: toast.POSITION.TOP_RIGHT
       });
         setLoading(false);
-        setError(e.message);
+   
       
     }
   }
