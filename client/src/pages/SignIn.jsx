@@ -43,7 +43,7 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data))  
-      navigate('/sign-in')
+      navigate('/')
     }catch(e){
       dispatch(signInError(e.message))
     }
