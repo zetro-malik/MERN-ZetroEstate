@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import { exit } from 'process';
+import userRouter from './routes/user.route.js'
 
 dotenv.config();
 
@@ -15,10 +16,7 @@ mongoose.connect(process.env.MONGO_URL).then(()=>{
 
 const app = express();
 
-
-app.get('/',(req,res)=>{
-    res.send("ok")
-})
+app.use('/api/user',userRouter)
 
 app.listen(3000,()=>{
     console.log('sever is runing on PORT 3000')
